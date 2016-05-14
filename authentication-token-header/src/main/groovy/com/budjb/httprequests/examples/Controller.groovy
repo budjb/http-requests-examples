@@ -1,8 +1,6 @@
 package com.budjb.httprequests.examples
 
 import com.budjb.httprequests.HttpClientFactory
-import com.budjb.httprequests.filter.bundled.AuthenticationTokenHeaderFilter
-import com.budjb.httprequests.filter.bundled.LoggingFilter
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
