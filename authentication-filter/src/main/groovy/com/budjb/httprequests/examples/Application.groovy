@@ -1,8 +1,13 @@
 package com.budjb.httprequests.examples
 
 import com.budjb.httprequests.HttpClientFactory
+import com.budjb.httprequests.filter.bundled.ConsoleLoggingFilter
+import com.budjb.httprequests.jersey2.JerseyHttpClientFactory
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestHeader
@@ -11,12 +16,10 @@ import org.springframework.web.bind.annotation.RestController
 
 import javax.servlet.http.HttpServletRequest
 
-/**
- * This would be better with spring security, but the example doesn't need that complexity.
- */
-@RestController
 @Slf4j
-class Controller {
+@RestController
+@SpringBootApplication
+public class Application {
     /**
      * HTTP client factory instance.
      */
@@ -24,7 +27,27 @@ class Controller {
     HttpClientFactory httpClientFactory
 
     /**
-     * If an authorization header is given, just trust it.
+     * Application entry point.
+     *
+     * @param args
+     * @throws Exception
+     */
+    static void main(String[] args) throws Exception {
+        SpringApplication.run(Application, args)
+    }
+
+    /**
+     * Creates the httpClientFactory bean.
+     *
+     * @return
+     */
+    @Bean
+    HttpClientFactory httpClientFactory() {
+        return new JerseyHttpClientFactory()
+    }
+
+    /**
+     * Authentication endpoint. If an authorization header is given, just trust it.
      *
      * @param auth
      * @return
@@ -61,7 +84,7 @@ class Controller {
     String test(HttpServletRequest request) {
         def client = httpClientFactory.createHttpClient()
             .addFilter(new ExampleAuthenticationFilter(httpClientFactory, getBaseUrl(request)))
-            .addFilter(new PrintlnLoggingFilter())
+            .addFilter(new ConsoleLoggingFilter())
 
         def response = client.get {
             uri = "${getBaseUrl(request)}/privileged"

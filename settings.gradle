@@ -1,1 +1,2 @@
-include 'authentication-token-header'
+include 'authentication-filter'
+include 'springframework-scanning'

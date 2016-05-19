@@ -2,6 +2,7 @@ package com.budjb.httprequests.examples
 
 import com.budjb.httprequests.HttpClientFactory
 import com.budjb.httprequests.filter.bundled.AuthenticationTokenHeaderFilter
+import com.budjb.httprequests.filter.bundled.ConsoleLoggingFilter
 
 /**
  * This is an example implementation of the authentication token header filter.
@@ -44,7 +45,7 @@ class ExampleAuthenticationFilter extends AuthenticationTokenHeaderFilter {
      */
     @Override
     protected void authenticate() {
-        def response = httpClientFactory.createHttpClient().addFilter(new PrintlnLoggingFilter()).get {
+        def response = httpClientFactory.createHttpClient().addFilter(new ConsoleLoggingFilter()).get {
             uri = "${baseUrl}/authenticate"
             headers = ['Authorization': 'foobar']
         }

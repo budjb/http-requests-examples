@@ -27,7 +27,7 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom "com.budjb:http-requests:0.1.11.BETA"
+            mavenBom "com.budjb:http-requests:1.0.0"
         }
         applyMavenExclusions false
     }
